@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from typing import Optional
 
 from fastapi import APIRouter, Depends, Form, HTTPException, Request
@@ -11,6 +12,18 @@ from app.dependencies import get_current_user, get_current_user_optional
 from app.models import Activity, Guide, Place, Review, SavedPlace, Stay, User
 
 router = APIRouter()
+
+
+def _parse_optional_float(value: Optional[str], field_name: str) -> Optional[float]:
+    if value is None or not value.strip():
+        return None
+    try:
+        number = float(value)
+    except ValueError as exc:
+        raise ValueError(f"{field_name} must be a number.") from exc
+    if not math.isfinite(number):
+        raise ValueError(f"{field_name} must be a finite number.")
+    return number
 
 
 def _place_query_filters(db: Session, category: str = "", district: str = "", query: str = ""):
@@ -39,6 +52,17 @@ def places_page(request: Request, db: Session = Depends(get_db), category: str =
     return request.app.state.templates.TemplateResponse(
         "places.html",
         {"request": request, "user": user, "places": places, "categories": categories, "districts": districts, "category": category, "district": district, "q": q},
+    )
+
+
+@router.get("/places/add")
+def add_place_form(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_optional(request, db)
+    if user is None:
+        return RedirectResponse("/login?msg=Please+log+in+to+add+a+place", status_code=303)
+    return request.app.state.templates.TemplateResponse(
+        "add_place.html",
+        {"request": request, "user": user},
     )
 
 
@@ -77,56 +101,83 @@ def place_detail(request: Request, place_id: int, db: Session = Depends(get_db))
     )
 
 
-@router.get("/places/add")
-def add_place_form(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user_optional(request, db)
-    if user is None:
-        return RedirectResponse("/login?msg=Please+log+in+to+add+a+place", status_code=303)
-    return request.app.state.templates.TemplateResponse("add_place.html", {"request": request, "user": user})
-
-
 @router.post("/places/add")
 def create_place(
     request: Request,
     db: Session = Depends(get_db),
-    place_name: str = Form(...),
-    location: str = Form(...),
-    category: str = Form(...),
-    description: str = Form(...),
-    entry_fee: float = Form(...),
-    visiting_hours: str = Form(...),
-    district: Optional[str] = Form(None),
-    latitude: Optional[float] = Form(None),
-    longitude: Optional[float] = Form(None),
-    image_url: Optional[str] = Form(None),
-    best_season: Optional[str] = Form(None),
-    eco_rating: Optional[float] = Form(None),
+    place_name: str = Form(""),
+    location: str = Form(""),
+    category: str = Form(""),
+    description: str = Form(""),
+    entry_fee: str = Form(""),
+    visiting_hours: str = Form(""),
+    district: str = Form(""),
+    latitude: str = Form(""),
+    longitude: str = Form(""),
+    image_url: str = Form(""),
+    best_season: str = Form(""),
+    eco_rating: str = Form(""),
 ):
     user = get_current_user_optional(request, db)
     if user is None:
         raise HTTPException(status_code=401, detail="Please log in first.")
-    if not place_name or not location or not category or not description:
-        raise HTTPException(status_code=400, detail="Missing required place information.")
-    if entry_fee < 0:
-        raise HTTPException(status_code=400, detail="Entry fee cannot be negative.")
-    if latitude is not None and not (-90 <= latitude <= 90):
-        raise HTTPException(status_code=400, detail="Latitude must be between -90 and 90.")
-    if longitude is not None and not (-180 <= longitude <= 180):
-        raise HTTPException(status_code=400, detail="Longitude must be between -180 and 180.")
+    form_data = {
+        "place_name": place_name.strip(),
+        "location": location.strip(),
+        "category": category.strip(),
+        "description": description.strip(),
+        "entry_fee": entry_fee.strip(),
+        "visiting_hours": visiting_hours.strip(),
+        "district": district.strip(),
+        "latitude": latitude.strip(),
+        "longitude": longitude.strip(),
+        "image_url": image_url.strip(),
+        "best_season": best_season.strip(),
+        "eco_rating": eco_rating.strip(),
+    }
+    error = None
+    entry_fee_value = 0.0
+    latitude_value = None
+    longitude_value = None
+    eco_rating_value = None
+    if not form_data["place_name"] or not form_data["location"] or not form_data["category"] or not form_data["description"]:
+        error = "Place name, location, category, and description are required."
+    else:
+        try:
+            entry_fee_value = _parse_optional_float(entry_fee, "Entry fee") or 0.0
+            latitude_value = _parse_optional_float(latitude, "Latitude")
+            longitude_value = _parse_optional_float(longitude, "Longitude")
+            eco_rating_value = _parse_optional_float(eco_rating, "Eco rating")
+            if entry_fee_value < 0:
+                error = "Entry fee cannot be negative."
+            elif latitude_value is not None and not -90 <= latitude_value <= 90:
+                error = "Latitude must be between -90 and 90."
+            elif longitude_value is not None and not -180 <= longitude_value <= 180:
+                error = "Longitude must be between -180 and 180."
+            elif eco_rating_value is not None and not 1 <= eco_rating_value <= 5:
+                error = "Eco rating must be between 1 and 5."
+        except ValueError as exc:
+            error = str(exc)
+    if error:
+        return request.app.state.templates.TemplateResponse(
+            "add_place.html",
+            {"request": request, "user": user, "form_data": form_data, "error": error},
+            status_code=400,
+        )
     place = Place(
-        place_name=place_name,
-        location=location,
-        category=category,
-        description=description,
-        entry_fee=entry_fee,
-        visiting_hours=visiting_hours,
+        place_name=form_data["place_name"],
+        location=form_data["location"],
+        category=form_data["category"],
+        description=form_data["description"],
+        entry_fee=entry_fee_value,
+        visiting_hours=form_data["visiting_hours"] or "Check current official access notices",
         status="approved" if user.role == "admin" else "pending",
-        district=district,
-        latitude=latitude,
-        longitude=longitude,
-        image_url=image_url,
-        best_season=best_season,
-        eco_rating=eco_rating,
+        district=form_data["district"] or None,
+        latitude=latitude_value,
+        longitude=longitude_value,
+        image_url=form_data["image_url"] or None,
+        best_season=form_data["best_season"] or None,
+        eco_rating=eco_rating_value,
         created_by=user.id,
     )
     db.add(place)

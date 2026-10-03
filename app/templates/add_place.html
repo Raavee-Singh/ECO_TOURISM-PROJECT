@@ -1,20 +1,37 @@
 {% extends "base.html" %}
 {% block title %}Add Place{% endblock %}
 {% block content %}
+{% set data = form_data|default({}) %}
 <h1>Add a new place</h1>
+<p>Share a nature destination for the Karnataka eco-tourism catalogue. Visitor submissions are reviewed before they appear publicly.</p>
+{% if error %}
+  <p class="flash" role="alert">{{ error }}</p>
+{% endif %}
 <form class="stack-form" action="/places/add" method="post">
-  <input type="text" name="place_name" placeholder="Place name" required>
-  <input type="text" name="location" placeholder="Location" required>
-  <input type="text" name="category" placeholder="Category" required>
-  <textarea name="description" placeholder="Description" required></textarea>
-  <input type="number" name="entry_fee" step="0.01" min="0" placeholder="Entry fee" required>
-  <input type="text" name="visiting_hours" placeholder="Visiting hours" required>
-  <input type="text" name="district" placeholder="District">
-  <input type="number" step="0.0001" name="latitude" placeholder="Latitude">
-  <input type="number" step="0.0001" name="longitude" placeholder="Longitude">
-  <input type="url" name="image_url" placeholder="Image URL">
-  <input type="text" name="best_season" placeholder="Best season">
-  <input type="number" step="0.1" min="1" max="5" name="eco_rating" placeholder="Eco rating (1-5)">
-  <button type="submit">Submit for review</button>
+  <label for="place-name">Place name</label>
+  <input id="place-name" type="text" name="place_name" value="{{ data.get('place_name', '') }}" required>
+  <label for="place-location">Location</label>
+  <input id="place-location" type="text" name="location" value="{{ data.get('location', '') }}" required>
+  <label for="place-category">Category</label>
+  <input id="place-category" type="text" name="category" value="{{ data.get('category', '') }}" placeholder="For example: forest, trekking, waterfall" required>
+  <label for="place-description">Description</label>
+  <textarea id="place-description" name="description" required>{{ data.get('description', '') }}</textarea>
+  <label for="entry-fee">Entry fee (₹, leave blank if unverified)</label>
+  <input id="entry-fee" type="number" name="entry_fee" step="0.01" min="0" value="{{ data.get('entry_fee', '') }}">
+  <label for="visiting-hours">Visiting hours (leave blank if unverified)</label>
+  <input id="visiting-hours" type="text" name="visiting_hours" value="{{ data.get('visiting_hours', '') }}">
+  <label for="place-district">District (optional)</label>
+  <input id="place-district" type="text" name="district" value="{{ data.get('district', '') }}">
+  <label for="place-latitude">Latitude (optional)</label>
+  <input id="place-latitude" type="number" step="any" min="-90" max="90" name="latitude" value="{{ data.get('latitude', '') }}">
+  <label for="place-longitude">Longitude (optional)</label>
+  <input id="place-longitude" type="number" step="any" min="-180" max="180" name="longitude" value="{{ data.get('longitude', '') }}">
+  <label for="place-image">Image URL (optional)</label>
+  <input id="place-image" type="url" name="image_url" value="{{ data.get('image_url', '') }}">
+  <label for="best-season">Best season (optional)</label>
+  <input id="best-season" type="text" name="best_season" value="{{ data.get('best_season', '') }}">
+  <label for="eco-rating">Eco rating (optional, 1–5)</label>
+  <input id="eco-rating" type="number" step="0.1" min="1" max="5" name="eco_rating" value="{{ data.get('eco_rating', '') }}">
+  <button type="submit">Add destination</button>
 </form>
 {% endblock %}

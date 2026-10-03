@@ -101,6 +101,70 @@ def test_every_seeded_destination_has_a_local_jpeg():
         assert head_response.headers["content-type"].startswith("image/jpeg"), filename
 
 
+def test_authenticated_user_can_open_destination_form():
+    client.post("/login", data={"email": "visitor@ecotourism.in", "password": "visitor123"})
+    response = client.get("/places/add")
+
+    assert response.status_code == 200
+    assert "Add a new place" in response.text
+    assert 'action="/places/add"' in response.text
+
+
+def test_visitor_can_submit_destination_with_optional_fields_blank():
+    client.post("/login", data={"email": "visitor@ecotourism.in", "password": "visitor123"})
+    place_name = f"Submission test {uuid4().hex}"
+    response = client.post(
+        "/places/add",
+        data={
+            "place_name": place_name,
+            "location": "Karnataka",
+            "category": "forest",
+            "description": "A test destination submitted with optional fields blank.",
+            "entry_fee": "",
+            "visiting_hours": "",
+            "district": "",
+            "latitude": "",
+            "longitude": "",
+            "image_url": "",
+            "best_season": "",
+            "eco_rating": "",
+        },
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 303
+    assert response.headers["location"].startswith("/places/")
+    with Session(engine) as db:
+        place = db.exec(select(Place).where(Place.place_name == place_name)).first()
+        assert place is not None
+        assert place.status == "pending"
+        assert place.entry_fee == 0
+        assert place.visiting_hours == "Check current official access notices"
+        assert place.latitude is None
+        assert place.longitude is None
+        assert place.eco_rating is None
+        db.delete(place)
+        db.commit()
+
+
+def test_destination_form_shows_validation_errors():
+    client.post("/login", data={"email": "visitor@ecotourism.in", "password": "visitor123"})
+    response = client.post(
+        "/places/add",
+        data={
+            "place_name": "Invalid rating test",
+            "location": "Karnataka",
+            "category": "forest",
+            "description": "The rating is outside the permitted range.",
+            "eco_rating": "6",
+        },
+    )
+
+    assert response.status_code == 400
+    assert "Eco rating must be between 1 and 5." in response.text
+    assert 'value="6"' in response.text
+
+
 def test_booking_uses_server_price_and_unique_reference():
     with Session(engine) as db:
         user = db.exec(select(User).where(User.email == "visitor@ecotourism.in")).first()
