@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#183a2b">
+  <meta name="application-name" content="EcoTour Karnataka">
+  <title>{% block title %}EcoKarnataka · Responsible nature travel{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css?v=20261003b">
+  <script src="/static/js/main.js?v=20261003b" defer></script>
+</head>
+<body class="{% if request.url.path in ['/login', '/register', '/environmental', '/places/add'] %}page-calm{% else %}page-immersive{% endif %}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <!-- Legacy illustration class scene__ridge--far retired; scene controls use data-theme-choice="sunset". -->
+  {% if request.url.path != '/' %}
+  <div class="page-backdrop" aria-hidden="true">
+    <img class="page-backdrop__image is-active" src="/static/media/wildlife-elephant-family.jpg" alt="" data-scene-image="elephants" fetchpriority="low">
+    <img class="page-backdrop__image" src="/static/media/wildlife-lion-tailed-macaque.jpg" alt="" data-scene-image="macaque" fetchpriority="low">
+    <div class="page-backdrop__veil"></div>
+  </div>
+  {% endif %}
+  <header class="topbar">
+    <div class="container nav-wrap">
+      <div class="brand">
+        <a href="/" aria-label="EcoKarnataka home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" role="presentation"><path d="M7 31 17 20l6 6 7-11 8 16H7Z"/><path d="M23 26c0-7 4-12 12-14-1 8-5 12-12 14Zm0 0-5-5"/></svg>
+          </span>
+          <span>Eco<strong>Karnataka</strong></span>
+        </a>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="main-navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/places">Destinations</a>
+        <a href="/activities">Experiences</a>
+        <a href="/stays">Eco stays</a>
+        <a href="/budget">Plan a trip</a>
+        <a href="/reviews">Stories</a>
+        <details class="dropdown">
+          <summary>More</summary>
+          <div class="dropdown-content">
+            <a href="/guides">Guides</a>
+            <a href="/bookings">Bookings</a>
+            <a href="/complaints">Complaints</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/places/add">Suggest a destination</a>
+            {% if user and user.role == 'admin' %}
+              <a href="/environmental">Environmental observations</a>
+            {% endif %}
+          </div>
+        </details>
+      </nav>
+      <div class="auth-actions">
+        {% if user %}
+          <a href="/profile">Profile</a>
+          <form action="/logout" method="post" class="logout-form">
+            <button type="submit">Logout</button>
+          </form>
+        {% else %}
+          <a href="/login">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  {% if request.query_params.get('msg') %}
+    <div class="flash container" role="status">{{ request.query_params.get('msg') }}</div>
+  {% endif %}
+
+  <main class="page-body{% if request.url.path == '/' %} page-body--home{% endif %}" id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">Eco<span>Karnataka</span></a>
+        <p>Thoughtful journeys through living landscapes. Discover with care, and leave room for nature to thrive.</p>
+      </div>
+      <div>
+        <h2>Explore</h2>
+        <a href="/places">Destinations</a>
+        <a href="/activities">Experiences</a>
+        <a href="/stays">Eco stays</a>
+      </div>
+      <div>
+        <h2>Plan</h2>
+        <a href="/budget">Trip budget</a>
+        <a href="/guides">Local guides</a>
+        <a href="/bookings">Your bookings</a>
+      </div>
+      <div>
+        <h2>Travel thoughtfully</h2>
+        <a href="/complaints">Visitor support</a>
+        <a href="/reviews">Travel stories</a>
+        <a href="/static/media/credits.html">Media credits</a>
+      </div>
+      <div class="footer-bottom">
+        <p>For the forests, waters, wildlife and communities of Karnataka.</p>
+        <span>© 2026 EcoKarnataka · Eco-tourism management portal</span>
+      </div>
+    </div>
+  </footer>
+  {% if request.url.path not in ['/login', '/register', '/environmental', '/places/add'] %}
+  <aside class="scene-control" aria-label="Background scene controls">
+    <button class="scene-control__trigger" type="button" aria-expanded="false" aria-controls="scene-menu">
+      <span aria-hidden="true">◒</span><span>Wildlife</span>
+    </button>
+    <div class="scene-control__menu" id="scene-menu" hidden>
+      <p>Choose a wildlife scene</p>
+      <div class="scene-control__choices">
+        <button type="button" data-scene-choice="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-scene-choice="elephants" aria-pressed="false">Elephants</button>
+        <button type="button" data-scene-choice="macaque" aria-pressed="false">Lion-tailed macaque</button>
+      </div>
+      <button type="button" class="scene-control__play" aria-pressed="false">Pause movement</button>
+    </div>
+  </aside>
+  {% endif %}
+</body>
+</html>

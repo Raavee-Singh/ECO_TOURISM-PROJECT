@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Visitor Registration{% endblock %}
+{% block content %}
+<h1>Visitor Registration</h1>
+<form class="stack-form" action="/register" method="post">
+  <input type="text" name="name" placeholder="Full name" required>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="text" name="phone" placeholder="Phone number" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <input type="password" name="confirm_password" placeholder="Confirm password" required>
+  <button type="submit">Create account</button>
+</form>
+{% endblock %}

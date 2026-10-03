@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h1>{{ user.name }}</h1>
+<p>Email: {{ user.email }}</p>
+<p>Role: {{ user.role }}</p>
+
+<form class="stack-form" action="/profile" method="post">
+  <input type="text" name="name" value="{{ user.name }}" required>
+  <input type="text" name="phone" value="{{ user.phone }}" required>
+  <button type="submit">Update profile</button>
+</form>
+
+<form class="stack-form" action="/change-password" method="post">
+  <input type="password" name="current_password" placeholder="Current password" required>
+  <input type="password" name="new_password" placeholder="New password" required>
+  <button type="submit">Change password</button>
+</form>
+
+<h2>Saved places</h2>
+{% if saved_places %}
+<ul>
+  {% for place in saved_places %}
+    <li><a href="/places/{{ place.id }}">{{ place.place_name }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>No places saved yet.</p>
+{% endif %}
+{% endblock %}

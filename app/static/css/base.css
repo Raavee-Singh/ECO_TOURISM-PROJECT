@@ -1,0 +1,138 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  scrollbar-color: var(--eco-moss-600) var(--eco-cream-100);
+  scrollbar-width: thin;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--eco-ink);
+  background: var(--eco-cream-100);
+  font-family: var(--eco-font-body);
+  font-size: var(--eco-text-base);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--eco-forest-800);
+  text-underline-offset: 0.22em;
+  transition: color 180ms ease;
+}
+
+a:hover {
+  color: var(--eco-moss-600);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 var(--eco-space-2);
+  color: var(--eco-forest-950);
+  font-family: var(--eco-font-display);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+}
+
+h2 {
+  font-size: var(--eco-text-xl);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+}
+
+p {
+  max-width: 75ch;
+  margin: 0 0 var(--eco-space-2);
+}
+
+::selection {
+  color: var(--eco-white);
+  background: var(--eco-forest-800);
+}
+
+:focus-visible {
+  outline: 2px solid var(--eco-sunrise);
+  outline-offset: 3px;
+  box-shadow: var(--eco-focus);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+fieldset {
+  min-width: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 300;
+  top: -5rem;
+  left: var(--eco-space-2);
+  padding: 0.75rem 1rem;
+  border-radius: var(--eco-radius-sm);
+  color: var(--eco-white);
+  background: var(--eco-forest-950);
+}
+
+.skip-link:focus {
+  top: var(--eco-space-2);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--eco-cream-100);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid var(--eco-cream-100);
+  border-radius: var(--eco-radius-pill);
+  background: var(--eco-moss-600);
+}

@@ -1,0 +1,12 @@
+@import url("./main.css?v=20261003a");
+
+/* Compatibility entry point. .hero-banner::before imagery has moved to the
+   media layer; the shared frosted navigation uses backdrop-filter: blur(12px). */
+.hero-banner::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(16, 37, 27, 0.2), transparent);
+  content: "";
+  pointer-events: none;
+}

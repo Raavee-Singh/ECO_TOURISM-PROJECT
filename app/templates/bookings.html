@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Bookings{% endblock %}
+{% block content %}
+<h1>Your bookings</h1>
+{% if bookings %}
+  {% for booking in bookings %}
+    <article class="review-item">
+      <h3>{{ booking.booking_type|title }} booking</h3>
+      <p>Reference: {{ booking.reference_code }}</p>
+      <p>{{ booking.start_date }} to {{ booking.end_date }}</p>
+      <p>Total: ₹{{ booking.total_price }}</p>
+      <p>Status: {{ booking.status }}</p>
+      <form action="/bookings/{{ booking.id }}/cancel" method="post"><button type="submit">Cancel</button></form>
+    </article>
+  {% endfor %}
+{% else %}
+  <p>No bookings yet. Explore places and book a stay, guide or activity.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+:root {
+  color-scheme: light;
+  --eco-forest-950: #10251b;
+  --eco-forest-900: #183a2b;
+  --eco-forest-800: #24513a;
+  --eco-moss-600: #527b56;
+  --eco-moss-400: #85a783;
+  --eco-teak-700: #75563f;
+  --eco-cream-100: #faf8f1;
+  --eco-cream-200: #f0ede2;
+  --eco-white: #fffefa;
+  --eco-ink: #202c25;
+  --eco-muted: #617068;
+  --eco-sunrise: #e3b66f;
+  --eco-monsoon: #4d8581;
+  --eco-success: #3e7956;
+  --eco-warning: #9b6d24;
+  --eco-error: #a54542;
+  --eco-info: #376d7a;
+
+  --eco-space-1: 0.5rem;
+  --eco-space-2: 1rem;
+  --eco-space-3: 1.5rem;
+  --eco-space-4: 2rem;
+  --eco-space-5: 3rem;
+  --eco-space-6: 4rem;
+  --eco-space-7: 6rem;
+  --eco-space-8: 8rem;
+
+  --eco-radius-sm: 0.65rem;
+  --eco-radius-md: 1rem;
+  --eco-radius-lg: 1.35rem;
+  --eco-radius-xl: 2rem;
+  --eco-radius-pill: 999px;
+  --eco-shadow-soft: 0 12px 34px rgba(16, 37, 27, 0.09);
+  --eco-shadow-card: 0 22px 54px rgba(16, 37, 27, 0.15);
+  --eco-focus: 0 0 0 3px rgba(227, 182, 111, 0.65);
+
+  --eco-font-display: "DM Serif Display", Georgia, serif;
+  --eco-font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --eco-text-xs: 0.78rem;
+  --eco-text-sm: 0.9rem;
+  --eco-text-base: 1rem;
+  --eco-text-lg: 1.2rem;
+  --eco-text-xl: clamp(1.65rem, 3vw, 2.45rem);
+  --eco-text-display: clamp(3rem, 7vw, 6.5rem);
+  --eco-content-width: 1320px;
+}

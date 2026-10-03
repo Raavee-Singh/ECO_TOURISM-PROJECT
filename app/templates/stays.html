@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Stays{% endblock %}
+{% block content %}
+<h1>Stays and Hotels</h1>
+{% for stay in stays %}
+  <article class="review-item">
+    <h3>{{ stay.name }}</h3>
+    <p>{{ stay.type }} · ₹{{ stay.price_per_night }}/night</p>
+    <small>{{ stay.amenities }}</small>
+  </article>
+{% endfor %}
+{% endblock %}

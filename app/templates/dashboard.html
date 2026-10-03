@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="stats-grid">
+  <div class="stat-box"><strong>{{ places|length }}</strong><span>Places</span></div>
+  <div class="stat-box"><strong>{{ bookings|length }}</strong><span>Bookings</span></div>
+  <div class="stat-box"><strong>{{ reviews|length }}</strong><span>Reviews</span></div>
+  <div class="stat-box"><strong>{{ complaints|length }}</strong><span>Complaints</span></div>
+</div>
+
+<h2>Manage Places</h2>
+{% for place in places %}
+  <div class="dashboard-list-item">
+    <span>{{ place.place_name }}</span>
+    <span>{{ place.status }}</span>
+    <div>
+      {% if user and user.role == 'admin' %}
+        <form action="/places/{{ place.id }}/approve" method="post" style="display:inline"><button type="submit">Approve</button></form>
+        <form action="/places/{{ place.id }}/reject" method="post" style="display:inline"><button type="submit">Reject</button></form>
+        <form action="/places/{{ place.id }}/delete" method="post" style="display:inline"><button type="submit">Delete</button></form>
+      {% endif %}
+      <a href="/places/{{ place.id }}">View</a>
+    </div>
+  </div>
+{% endfor %}
+
+<h2>Saved places</h2>
+{% for item in saved_places %}
+  <div>{{ item.place_name }}</div>
+{% endfor %}
+{% endblock %}

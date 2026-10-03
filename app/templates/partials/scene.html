@@ -1,0 +1,140 @@
+<div class="scene scene--ambient" aria-hidden="true">
+  <div class="scene__sky"></div>
+  <div class="scene__stars"></div>
+  <div class="scene__sun"><span class="scene__sun-rays"></span></div>
+  <div class="scene__moon"></div>
+
+  <div class="scene__clouds scene__clouds--far">
+    <div class="scene__track">
+      <div class="cloud-set">
+        <i class="cloud" style="--x: 8%; --y: 15%; --s: .72"></i>
+        <i class="cloud" style="--x: 39%; --y: 22%; --s: .58"></i>
+        <i class="cloud" style="--x: 70%; --y: 12%; --s: .82"></i>
+        <i class="cloud" style="--x: 88%; --y: 30%; --s: .5"></i>
+      </div>
+      <div class="cloud-set">
+        <i class="cloud" style="--x: 8%; --y: 15%; --s: .72"></i>
+        <i class="cloud" style="--x: 39%; --y: 22%; --s: .58"></i>
+        <i class="cloud" style="--x: 70%; --y: 12%; --s: .82"></i>
+        <i class="cloud" style="--x: 88%; --y: 30%; --s: .5"></i>
+      </div>
+    </div>
+  </div>
+  <div class="scene__clouds scene__clouds--mid">
+    <div class="scene__track">
+      <div class="cloud-set">
+        <i class="cloud" style="--x: 2%; --y: 31%; --s: .9"></i>
+        <i class="cloud" style="--x: 30%; --y: 40%; --s: .7"></i>
+        <i class="cloud" style="--x: 59%; --y: 28%; --s: 1"></i>
+        <i class="cloud" style="--x: 83%; --y: 42%; --s: .68"></i>
+      </div>
+      <div class="cloud-set">
+        <i class="cloud" style="--x: 2%; --y: 31%; --s: .9"></i>
+        <i class="cloud" style="--x: 30%; --y: 40%; --s: .7"></i>
+        <i class="cloud" style="--x: 59%; --y: 28%; --s: 1"></i>
+        <i class="cloud" style="--x: 83%; --y: 42%; --s: .68"></i>
+      </div>
+    </div>
+  </div>
+  <div class="scene__clouds scene__clouds--near">
+    <div class="scene__track">
+      <div class="cloud-set">
+        <i class="cloud" style="--x: 12%; --y: 51%; --s: .55"></i>
+        <i class="cloud" style="--x: 44%; --y: 57%; --s: .72"></i>
+        <i class="cloud" style="--x: 72%; --y: 49%; --s: .62"></i>
+        <i class="cloud" style="--x: 91%; --y: 60%; --s: .48"></i>
+      </div>
+      <div class="cloud-set">
+        <i class="cloud" style="--x: 12%; --y: 51%; --s: .55"></i>
+        <i class="cloud" style="--x: 44%; --y: 57%; --s: .72"></i>
+        <i class="cloud" style="--x: 72%; --y: 49%; --s: .62"></i>
+        <i class="cloud" style="--x: 91%; --y: 60%; --s: .48"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene__birds">
+    <div class="flock flock--far" style="--y: 28%; --dur: 55s; --delay: -12s; --drift: -3vh">
+      <i class="bird" style="--dx: 0px; --dy: 0px"></i>
+      <i class="bird" style="--dx: 18px; --dy: 9px"></i>
+      <i class="bird" style="--dx: 36px; --dy: 2px"></i>
+      <i class="bird" style="--dx: 54px; --dy: 12px"></i>
+    </div>
+    <div class="flock flock--mid" style="--y: 39%; --dur: 42s; --delay: -25s; --drift: 4vh">
+      <i class="bird" style="--dx: 0px; --dy: 0px"></i>
+      <i class="bird" style="--dx: 26px; --dy: 13px"></i>
+      <i class="bird" style="--dx: 52px; --dy: 3px"></i>
+      <i class="bird" style="--dx: 78px; --dy: 17px"></i>
+      <i class="bird" style="--dx: 104px; --dy: 6px"></i>
+    </div>
+    <div class="flock flock--near" style="--y: 20%; --dur: 62s; --delay: -38s; --drift: 2vh">
+      <i class="bird" style="--dx: 0px; --dy: 0px"></i>
+      <i class="bird" style="--dx: 34px; --dy: 18px"></i>
+      <i class="bird" style="--dx: 68px; --dy: 4px"></i>
+    </div>
+  </div>
+
+  <svg class="scene__ridge scene__ridge--far" viewBox="0 0 1440 600" preserveAspectRatio="none">
+    <path d="M0 390 120 310 215 340 355 205 465 295 610 180 760 305 890 195 1015 270 1155 150 1290 290 1440 205V600H0Z"/>
+  </svg>
+  <div class="scene__haze"></div>
+  <svg class="scene__ridge scene__ridge--mid" viewBox="0 0 1440 500" preserveAspectRatio="none">
+    <path d="M0 250 105 210 210 255 330 130 440 220 580 115 700 245 835 155 965 235 1110 120 1240 225 1350 155 1440 205V500H0Z"/>
+  </svg>
+
+  <div class="waterfall">
+    <div class="waterfall__rock">
+      <div class="fall fall--side"></div>
+      <div class="fall"></div>
+    </div>
+    <div class="waterfall__mist"></div>
+    <div class="waterfall__pool">
+      <i class="ripple"></i>
+      <i class="ripple"></i>
+      <i class="ripple"></i>
+    </div>
+  </div>
+
+  <svg class="scene__ridge scene__ridge--near" viewBox="0 0 1440 420" preserveAspectRatio="none">
+    <path d="M0 225 135 155 250 205 390 115 520 185 655 90 790 200 930 125 1060 205 1195 105 1320 180 1440 125V420H0Z"/>
+  </svg>
+
+  <svg class="scene__foreground" viewBox="0 0 1440 430" preserveAspectRatio="none">
+    <path d="M0 250 105 200 180 252 280 170 370 252 495 195 580 250 690 155 785 245 900 185 1010 250 1120 160 1220 235 1320 175 1440 225V430H0Z"/>
+    <g class="sway" style="--d: -2s">
+      <path d="M90 430 145 255 198 430Z M139 304 72 285 146 329Z M147 344 217 316 151 369Z"/>
+    </g>
+    <g class="sway" style="--d: -4s">
+      <path d="M1240 430 1315 210 1385 430Z M1310 280 1232 256 1312 313Z M1318 333 1400 296 1320 360Z"/>
+    </g>
+    <g class="sway" style="--d: -1s">
+      <path d="M1080 430 1120 300 1160 430Z M1118 337 1070 320 1120 354Z M1121 373 1175 350 1123 390Z"/>
+    </g>
+  </svg>
+
+  <div class="scene__fireflies">
+    <i class="firefly" style="--x: 18%; --y: 77%; --d: -1s; --dur: 8s"></i>
+    <i class="firefly" style="--x: 34%; --y: 84%; --d: -4s; --dur: 10s"></i>
+    <i class="firefly" style="--x: 72%; --y: 78%; --d: -3s; --dur: 7s"></i>
+    <i class="firefly" style="--x: 88%; --y: 88%; --d: -6s; --dur: 11s"></i>
+  </div>
+  <div class="scene__pollen">
+    <i class="pollen" style="--x: 17%; --y: 71%; --d: -5s"></i>
+    <i class="pollen" style="--x: 43%; --y: 80%; --d: -12s"></i>
+    <i class="pollen" style="--x: 67%; --y: 74%; --d: -8s"></i>
+    <i class="pollen" style="--x: 91%; --y: 82%; --d: -16s"></i>
+  </div>
+  <div class="scene__veil"></div>
+</div>
+
+<div class="scene-toggle" aria-label="Scene appearance controls">
+  <button class="scene-toggle__fab" type="button" aria-expanded="false" aria-controls="scene-theme-menu" aria-label="Choose time of day">☼</button>
+  <div class="scene-toggle__menu" id="scene-theme-menu" role="group" aria-label="Choose a scene theme">
+    <button class="scene-toggle__btn" type="button" data-theme-choice="auto" aria-pressed="true">Auto</button>
+    <button class="scene-toggle__btn" type="button" data-theme-choice="sunrise" aria-pressed="false">Sunrise</button>
+    <button class="scene-toggle__btn" type="button" data-theme-choice="day" aria-pressed="false">Day</button>
+    <button class="scene-toggle__btn" type="button" data-theme-choice="sunset" aria-pressed="false">Sunset</button>
+    <button class="scene-toggle__btn" type="button" data-theme-choice="night" aria-pressed="false">Night</button>
+  </div>
+  <button class="scene-toggle__fab scene-toggle__pause" type="button" aria-label="Pause background animation" title="Pause background animation">Ⅱ</button>
+</div>

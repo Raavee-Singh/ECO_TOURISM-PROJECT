@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Complaints{% endblock %}
+{% block content %}
+<h1>Complaints</h1>
+{% if user %}
+  <form class="stack-form" action="/complaints" method="post">
+    <input type="text" name="category" placeholder="Category" required>
+    <input type="text" name="subject" placeholder="Subject" required>
+    <textarea name="description" placeholder="Describe the issue" required></textarea>
+    <button type="submit">Submit complaint</button>
+  </form>
+{% else %}
+  <p class="empty-state">Please <a href="/login">log in</a> to file and track a complaint.</p>
+{% endif %}
+
+{% for complaint in complaints %}
+  <article class="review-item">
+    <h3>{{ complaint.subject }}</h3>
+    <p>{{ complaint.category }} · {{ complaint.status }}</p>
+    <p>{{ complaint.description }}</p>
+    {% if complaint.admin_response %}
+      <p><strong>Admin response:</strong> {{ complaint.admin_response }}</p>
+    {% endif %}
+  </article>
+{% endfor %}
+{% endblock %}

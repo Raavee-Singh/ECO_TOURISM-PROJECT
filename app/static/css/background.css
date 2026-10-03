@@ -1,0 +1,161 @@
+.page-backdrop {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #dce1d4;
+}
+
+.page-immersive {
+  background: transparent;
+}
+
+.page-calm {
+  background: var(--eco-cream-100);
+}
+
+.page-backdrop__image {
+  position: absolute;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 1.4s ease;
+  animation: wildlife-drift 28s ease-in-out infinite alternate;
+}
+
+.page-backdrop__image.is-active {
+  opacity: 0.38;
+}
+
+.page-backdrop__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(250, 248, 241, 0.68),
+    rgba(250, 248, 241, 0.78) 52%,
+    rgba(250, 248, 241, 0.9)
+  );
+}
+
+.page-calm .page-backdrop__image.is-active {
+  opacity: 0.22;
+}
+
+.page-calm .page-backdrop__veil {
+  background: rgba(250, 248, 241, 0.76);
+}
+
+.hero-media {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #183a2b;
+}
+
+.hero-media::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(9, 24, 17, 0.88) 0%, rgba(9, 24, 17, 0.62) 42%, rgba(9, 24, 17, 0.12) 100%),
+    linear-gradient(0deg, rgba(9, 24, 17, 0.34), transparent 55%);
+  content: "";
+}
+
+.hero-media__image {
+  position: absolute;
+  z-index: 0;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.035);
+  transition: opacity 1.5s ease;
+  animation: wildlife-drift 28s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+.hero-media__image.is-active {
+  opacity: 1;
+}
+
+.page-backdrop.scene-paused .page-backdrop__image,
+.hero-media.scene-paused .hero-media__image {
+  animation-play-state: paused;
+}
+
+@keyframes wildlife-drift {
+  from {
+    transform: scale(1.035) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1%, -0.5%, 0);
+  }
+}
+
+.page-immersive:has(.hero-banner) .page-backdrop {
+  display: none;
+}
+
+.page-immersive:not(:has(.hero-banner)) .page-body {
+  min-height: calc(100vh - 19rem);
+}
+
+.page-immersive:not(:has(.hero-banner)) .topbar:not(.is-scrolled) {
+  background: rgba(16, 37, 27, 0.48);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.page-immersive:not(:has(.hero-banner)) .topbar:not(.is-scrolled) .main-nav a,
+.page-immersive:not(:has(.hero-banner)) .topbar:not(.is-scrolled) .auth-actions > a,
+.page-immersive:not(:has(.hero-banner)) .topbar:not(.is-scrolled) .dropdown summary {
+  color: var(--eco-white);
+}
+
+.page-immersive:not(:has(.hero-banner)) .page-body > h1:first-child,
+.page-immersive:not(:has(.hero-banner)) .page-body > h2,
+.page-immersive:not(:has(.hero-banner)) .page-body > section > h2 {
+  text-shadow: 0 1px 12px rgba(250, 248, 241, 0.4);
+}
+
+.page-immersive:not(:has(.hero-banner)) .footer {
+  background-color: var(--eco-forest-950);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-media__image,
+  .page-backdrop__image {
+    animation: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-media__image {
+    object-position: 58% center;
+  }
+
+  .page-backdrop__image {
+    object-position: 58% center;
+  }
+
+  .page-backdrop__veil {
+    background: linear-gradient(
+      180deg,
+      rgba(250, 248, 241, 0.72),
+      rgba(250, 248, 241, 0.82) 58%,
+      rgba(250, 248, 241, 0.93)
+    );
+  }
+}

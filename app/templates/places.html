@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Tourist Places{% endblock %}
+{% block content %}
+<h1>Tourist Places</h1>
+<form class="filters" method="get" action="/places">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search by name or district">
+  <select name="category">
+    <option value="">All categories</option>
+    {% for cat in categories %}
+      <option value="{{ cat }}" {% if cat == category %}selected{% endif %}>{{ cat|title }}</option>
+    {% endfor %}
+  </select>
+  <select name="district">
+    <option value="">All districts</option>
+    {% for item in districts %}
+      <option value="{{ item }}" {% if item == district %}selected{% endif %}>{{ item }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Apply filters</button>
+</form>
+{% if not places %}
+  <div class="empty-state">No approved places match your search. Try another category or district.</div>
+{% else %}
+  <div class="card-grid">
+    {% for place in places %}
+      <article class="card place-card">
+        <a class="card-media" href="/places/{{ place.id }}" aria-label="Explore {{ place.place_name }}">
+          <img data-local-src="/static/images/places/{{ place.place_name|lower|replace(' ', '-') }}.jpg" alt="{{ place.place_name }}" width="720" height="450" loading="lazy" decoding="async">
+          <span class="card-media__fallback" aria-hidden="true"></span>
+          <span class="card-media__label">{{ place.category|title }}</span>
+        </a>
+        <div class="card-body">
+          <p class="card-location">{{ place.location }}, {{ place.district or 'Karnataka' }}</p>
+          <h3><a href="/places/{{ place.id }}">{{ place.place_name }}</a></h3>
+          <p>{{ place.description[:120] }}...</p>
+          <div class="card-meta">
+            <span>Entry ₹{{ place.entry_fee }}</span>
+            <span class="eco-rating"><span aria-hidden="true">✦</span> {{ place.eco_rating or 'N/A' }}<small>/5</small></span>
+          </div>
+          {% if user %}
+            <form action="/places/{{ place.id }}/save" method="post" class="save-place-form">
+              <button type="submit">Save to wishlist</button>
+            </form>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}{{ place.place_name }}{% endblock %}
+{% block content %}
+<section class="detail-header">
+  <div class="detail-media">
+    <img data-local-src="/static/images/places/{{ place.place_name|lower|replace(' ', '-') }}.jpg" alt="{{ place.place_name }}" class="detail-image" width="960" height="600" loading="eager" decoding="async">
+    <span class="detail-media__fallback" aria-hidden="true"></span>
+  </div>
+  <div>
+    <p class="eyebrow">{{ place.category|title }}</p>
+    <h1>{{ place.place_name }}</h1>
+    <p>{{ place.location }}, {{ place.district or 'Karnataka' }}</p>
+    <div class="meta-row">
+      <span class="badge">{{ place.status|title }}</span>
+      <span>Entry fee: ₹{{ place.entry_fee }}</span>
+      <span>Hours: {{ place.visiting_hours }}</span>
+      <span>Eco rating: {{ average_rating }}/5</span>
+    </div>
+    {% if user %}
+      <div class="action-row">
+        <form action="/places/{{ place.id }}/save" method="post"><button type="submit">Save to Wishlist</button></form>
+        <a class="button-link" href="/complaints">File Complaint</a>
+        <a class="button-link" href="/budget">Plan Budget</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<p>{{ place.description }}</p>
+<div class="place-facts">
+  {% if place.best_season %}<span><strong>Best season</strong>{{ place.best_season }}</span>{% endif %}
+  {% if place.latitude is not none and place.longitude is not none %}
+    <a href="https://www.google.com/maps?q={{ place.latitude }},{{ place.longitude }}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+  {% endif %}
+</div>
+
+<div class="detail-grid">
+  <div>
+    <h2>Nearby Stays</h2>
+    {% if stays %}
+      {% for stay in stays %}
+        <div class="mini-card">
+          <h3>{{ stay.name }}</h3>
+          <p>{{ stay.type }} · ₹{{ stay.price_per_night }}/night</p>
+          {% if user %}
+            <form class="booking-form" action="/bookings/create" method="post">
+              <input type="hidden" name="booking_type" value="stay">
+              <input type="hidden" name="item_id" value="{{ stay.id }}">
+              <input type="hidden" name="place_id" value="{{ place.id }}">
+              <label>Check in<input type="date" name="start_date" required></label>
+              <label>Check out<input type="date" name="end_date" required></label>
+              <label>Rooms<input type="number" name="rooms" min="1" max="{{ stay.rooms_available }}" value="1" required></label>
+              <label>Guests<input type="number" name="guests" min="1" value="2" required></label>
+              <button type="submit">Book stay</button>
+            </form>
+          {% else %}<a class="button-link" href="/login">Log in to book</a>{% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No stays are listed yet.</p>
+    {% endif %}
+  </div>
+  <div>
+    <h2>Guides</h2>
+    {% if guides %}
+      {% for guide in guides %}
+        <div class="mini-card">
+          <h3>{{ guide.name }}</h3>
+          <p>{{ guide.specialization }} · ₹{{ guide.price_per_day }}/day</p>
+          {% if user %}
+            <form class="booking-form" action="/bookings/create" method="post">
+              <input type="hidden" name="booking_type" value="guide">
+              <input type="hidden" name="item_id" value="{{ guide.id }}">
+              <input type="hidden" name="place_id" value="{{ place.id }}">
+              <label>Start date<input type="date" name="start_date" required></label>
+              <label>End date<input type="date" name="end_date" required></label>
+              <label>Guests<input type="number" name="guests" min="1" value="1" required></label>
+              <button type="submit">Book guide</button>
+            </form>
+          {% else %}<a class="button-link" href="/login">Log in to book</a>{% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No guides available.</p>
+    {% endif %}
+  </div>
+  <div>
+    <h2>Activities</h2>
+    {% if activities %}
+      {% for activity in activities %}
+        <div class="mini-card">
+          <h3>{{ activity.name }}</h3>
+          <p>{{ activity.duration_hours }} hours · ₹{{ activity.price_per_person }}/person</p>
+          {% if user %}
+            <form class="booking-form activity-booking" action="/bookings/create" method="post">
+              <input type="hidden" name="booking_type" value="activity">
+              <input type="hidden" name="item_id" value="{{ activity.id }}">
+              <input type="hidden" name="place_id" value="{{ place.id }}">
+              <label>Activity date<input type="date" name="start_date" required></label>
+              <input type="hidden" name="end_date" value="">
+              <label>Guests<input type="number" name="guests" min="1" max="{{ activity.max_group_size }}" value="2" required></label>
+              <button type="submit">Book activity</button>
+            </form>
+          {% else %}<a class="button-link" href="/login">Log in to book</a>{% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No activities are listed.</p>
+    {% endif %}
+  </div>
+</div>
+
+<section class="section reviews-panel">
+  <h2>Reviews</h2>
+  {% if reviews %}
+    <p>Average rating: {{ average_rating }}/5</p>
+    <div class="rating-bars">
+      {% for star in range(5, 0, -1) %}
+        <div class="rating-row">
+          <span>{{ star }}★</span>
+          <div class="bar"><span style="width: {{ ((reviews|selectattr('rating', 'equalto', star)|list|length) / (reviews|length or 1)) * 100 }}%"></span></div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if user %}
+    <form class="stack-form" action="/places/{{ place.id }}/reviews" method="post">
+      <input type="hidden" name="rating" id="review-rating" value="5">
+      <div class="star-rating" aria-label="Rate this place">
+        <button type="button" class="star-btn" data-value="1">★</button>
+        <button type="button" class="star-btn" data-value="2">★</button>
+        <button type="button" class="star-btn" data-value="3">★</button>
+        <button type="button" class="star-btn" data-value="4">★</button>
+        <button type="button" class="star-btn" data-value="5">★</button>
+      </div>
+      <input type="text" name="title" placeholder="Review title" required>
+      <textarea name="comment" placeholder="Share your experience" required></textarea>
+      <button type="submit">Submit review</button>
+    </form>
+  {% endif %}
+
+  {% for review in reviews %}
+    <article class="review-item">
+      <h3>{{ review.title }}</h3>
+      <p>{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</p>
+      <p>{{ review.comment }}</p>
+      <small>By {{ review.user.name if review.user else 'Visitor' }}</small>
+      {% if user and (user.id == review.user_id or user.role == 'admin') %}
+        <form action="/reviews/{{ review.id }}/delete" method="post" style="margin-top: 8px;">
+          <button type="submit">Delete</button>
+        </form>
+      {% endif %}
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

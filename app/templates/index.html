@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero-banner">
+  <div class="hero-media" aria-hidden="true">
+    <img class="hero-media__image is-active" src="/static/media/wildlife-elephant-family.jpg" alt="" data-scene-image="elephants" fetchpriority="high">
+    <img class="hero-media__image" src="/static/media/wildlife-lion-tailed-macaque.jpg" alt="" data-scene-image="macaque">
+  </div>
+  <div class="hero__content">
+    <p class="eyebrow">Explore Responsibly · Karnataka</p>
+    <h1>Find your way<br>back to the wild.</h1>
+    <p class="hero-description">Forest trails, monsoon falls and quiet hill country—discover Karnataka at nature’s pace.</p>
+    <div class="hero-actions">
+      <a class="button-link" href="/places">Explore Destinations</a>
+      <a class="button-link" href="/budget">Plan Your Visit</a>
+      <a class="button-link hero-link--text" href="/guides">Meet local guides <span aria-hidden="true">↗</span></a>
+    </div>
+    <form class="search-box" action="/places" method="get" role="search">
+      <label class="search-box__field">
+        <span aria-hidden="true">⌕</span>
+        <span class="visually-hidden">Search destinations</span>
+        <input type="search" name="q" placeholder="Where would you like to wander?" aria-label="Search by place or district">
+      </label>
+      <button type="submit">Find a place <span aria-hidden="true">→</span></button>
+    </form>
+  </div>
+  <a class="hero-scroll" href="#discover"><span aria-hidden="true">↓</span> Scroll to discover</a>
+</section>
+
+<section class="section category-section" id="discover">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Find your kind of quiet</p>
+      <h2>Nature, in every direction</h2>
+    </div>
+    <a class="text-link" href="/places">All destinations <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="category-grid">
+    {% for category in categories %}
+      <a class="category-link" href="/places?category={{ category|urlencode }}">
+        <span class="category-link__icon" aria-hidden="true">
+          {% if category == 'wildlife' %}
+          <svg viewBox="0 0 32 32"><path d="M5 19c3-6 6-9 11-9s8 3 11 9M8 19c2 4 5 6 8 6s6-2 8-6M11 13l-3-4M21 13l3-4M13 17h.01M19 17h.01"/></svg>
+          {% elif category == 'waterfall' %}
+          <svg viewBox="0 0 32 32"><path d="M5 7h22M9 7v8m7-8v13m7-13v8M9 20v5m7-2v4m7-7v5M5 27h22"/></svg>
+          {% elif category == 'hill station' %}
+          <svg viewBox="0 0 32 32"><path d="m3 26 10-17 5 8 3-5 8 14H3Z"/></svg>
+          {% elif category == 'beach' %}
+          <svg viewBox="0 0 32 32"><path d="M5 14c4-4 8-4 12 0s8 4 10 0M4 21c4-4 8-4 12 0s8 4 12 0M16 5v3M7 8l2 2m16-2-2 2"/></svg>
+          {% elif category == 'trekking' %}
+          <svg viewBox="0 0 32 32"><path d="m4 25 8-13 4 6 4-9 8 16H4Zm8-13 2 3m6-6 2 4"/></svg>
+          {% elif category == 'backwaters' %}
+          <svg viewBox="0 0 32 32"><path d="M4 11c4-4 8-4 12 0s8 4 12 0M4 18c4-4 8-4 12 0s8 4 12 0M4 25c4-4 8-4 12 0s8 4 12 0"/></svg>
+          {% else %}
+          <svg viewBox="0 0 32 32"><path d="M5 26h22M8 26V13l8-7 8 7v13M13 26v-7h6v7"/></svg>
+          {% endif %}
+        </span>
+        <span>{{ category|title }}</span>
+        <span class="category-link__arrow" aria-hidden="true">↗</span>
+      </a>
+    {% endfor %}
+    <a class="category-link" href="/stays">
+      <span class="category-link__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 26h22M8 26V13l8-7 8 7v13M13 26v-7h6v7"/></svg></span>
+      <span>Homestays</span><span class="category-link__arrow" aria-hidden="true">↗</span>
+    </a>
+  </div>
+</section>
+
+<section class="section destination-section">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">A slower way to see the state</p>
+      <h2>Featured eco destinations</h2>
+      <p class="page-intro">Places to pause, breathe deeply and experience the living landscape.</p>
+    </div>
+    <a class="text-link" href="/places">Explore all places <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="card-grid">
+    {% for place in places %}
+      <article class="card place-card">
+        <a class="card-media" href="/places/{{ place.id }}" aria-label="Explore {{ place.place_name }}">
+          <img data-local-src="/static/images/places/{{ place.place_name|lower|replace(' ', '-') }}.jpg" alt="{{ place.place_name }}" width="720" height="450" loading="lazy" decoding="async">
+          <span class="card-media__fallback" aria-hidden="true"></span>
+          <span class="card-media__label">{{ place.category|title }}</span>
+        </a>
+        <div class="card-body">
+          <p class="card-location">{{ place.location }} · {{ place.district or 'Karnataka' }}</p>
+          <h3><a href="/places/{{ place.id }}">{{ place.place_name }}</a></h3>
+          <div class="card-meta">
+            <span>Entry ₹{{ place.entry_fee }}</span>
+            <span class="eco-rating"><span aria-hidden="true">✦</span> {{ place.eco_rating or 'N/A' }}<small>/5</small></span>
+          </div>
+          <a class="card-link" href="/places/{{ place.id }}">Discover this place <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section journey-section">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Your journey, thoughtfully planned</p>
+      <h2>Three small steps to a richer trip</h2>
+    </div>
+  </div>
+  <div class="journey-grid">
+    <a class="journey-card" href="/places"><span>01</span><h3>Find a place</h3><p>Explore landscapes and choose a destination that feels right.</p><b aria-hidden="true">↗</b></a>
+    <a class="journey-card" href="/budget"><span>02</span><h3>Plan with care</h3><p>Build a simple budget for the stay, travel and experiences you choose.</p><b aria-hidden="true">↗</b></a>
+    <a class="journey-card" href="/guides"><span>03</span><h3>Go with a local</h3><p>Discover guided experiences and learn from people who know the place.</p><b aria-hidden="true">↗</b></a>
+  </div>
+</section>
+
+<section class="section split-section values-section">
+  <div class="values-copy">
+    <p class="eyebrow">A lighter footprint</p>
+    <h2>Let the place stay wild.</h2>
+    <p class="page-intro">The best journeys make room for wildlife, respect local knowledge and leave the landscape as you found it.</p>
+    <ul class="tips-list">
+      <li>Carry reusable bottles and take your waste back with you.</li>
+      <li>Keep a respectful distance from wildlife and stay on marked trails.</li>
+      <li>Choose local guides, stays and services where possible.</li>
+      <li>Follow site rules and seasonal closures.</li>
+    </ul>
+    <a class="button-link" href="/activities">Explore experiences</a>
+  </div>
+  <div class="reviews-column">
+    <p class="eyebrow">Notes from the trail</p>
+    <h2>Recent visitor stories</h2>
+    {% for review in reviews %}
+      <article class="review-snippet">
+        <div class="review-snippet__rating" aria-label="{{ review.rating }} out of 5 stars">{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</div>
+        <strong>{{ review.title }}</strong>
+        <p>{{ review.comment[:150] }}{% if review.comment|length > 150 %}…{% endif %}</p>
+      </article>
+    {% else %}
+      <p class="empty-state">Visitor stories will appear here as people share their experiences.</p>
+    {% endfor %}
+    <a class="text-link" href="/reviews">Read more stories <span aria-hidden="true">↗</span></a>
+  </div>
+</section>
+{% endblock %}

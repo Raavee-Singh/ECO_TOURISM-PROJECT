@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% block title %}Environmental Monitoring{% endblock %}
+{% block content %}
+<header class="environmental-heading">
+  <p class="eyebrow">Research and monitoring · Phase 3</p>
+  <h1>Environmental observations</h1>
+  <p class="page-intro">
+    Record aggregated destination-level monitoring data. These records support research;
+    they are not official ecological standards or automatic management decisions.
+  </p>
+</header>
+
+<div class="research-notice">
+  <strong>Use responsibly</strong>
+  <span>Do not enter visitor names or contact details. Mark each record as measured, estimated, or mixed, and document relevant assumptions in the notes.</span>
+</div>
+
+{% if errors %}
+  <div class="alert-danger" role="alert">
+    <strong>Please check the observation:</strong>
+    <ul>
+      {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<section aria-labelledby="record-observation-title">
+  <h2 id="record-observation-title">Record an observation</h2>
+  <form class="stack-form environmental-form" action="/environmental/observations" method="post">
+    <fieldset>
+      <legend>Record details</legend>
+      <div class="environmental-fields">
+        <label>Destination
+          <select name="place_id" required>
+            <option value="">Choose an approved destination</option>
+            {% for place in places %}
+              <option value="{{ place.id }}" {% if form_data.get('place_id', selected_place|string if selected_place else '')|string == place.id|string %}selected{% endif %}>{{ place.place_name }} · {{ place.district or place.location }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Observation date and time
+          <input type="datetime-local" name="observed_at" value="{{ form_data.get('observed_at', '') }}" required>
+        </label>
+        <label>Data basis
+          <select name="data_basis" required>
+            {% for value, label in [('measured', 'Measured'), ('estimated', 'Estimated'), ('mixed', 'Mixed: measured and estimated')] %}
+              <option value="{{ value }}" {% if form_data.get('data_basis', 'measured') == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Trail / zone
+          <input type="text" name="trail_zone" maxlength="120" value="{{ form_data.get('trail_zone', '') }}" placeholder="Optional zone name">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Visitor activity</legend>
+      <div class="environmental-fields">
+        <label>Visitor count
+          <input type="number" name="visitor_count" min="0" value="{{ form_data.get('visitor_count', '0') }}" required>
+        </label>
+        <label>Group size
+          <input type="number" name="group_size" min="0" value="{{ form_data.get('group_size', '') }}">
+        </label>
+        <label>Visit duration (minutes)
+          <input type="number" name="visit_duration_minutes" min="0" step="0.1" value="{{ form_data.get('visit_duration_minutes', '') }}">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Waste monitoring (kg)</legend>
+      <div class="environmental-fields">
+        <label>Total waste generated
+          <input type="number" name="waste_total_kg" min="0" step="0.01" value="{{ form_data.get('waste_total_kg', '') }}">
+        </label>
+        <label>Plastic waste
+          <input type="number" name="waste_plastic_kg" min="0" step="0.01" value="{{ form_data.get('waste_plastic_kg', '') }}">
+        </label>
+        <label>Organic waste
+          <input type="number" name="waste_organic_kg" min="0" step="0.01" value="{{ form_data.get('waste_organic_kg', '') }}">
+        </label>
+        <label>Recyclable waste
+          <input type="number" name="waste_recyclable_kg" min="0" step="0.01" value="{{ form_data.get('waste_recyclable_kg', '') }}">
+        </label>
+        <label>Waste collected
+          <input type="number" name="waste_collected_kg" min="0" step="0.01" value="{{ form_data.get('waste_collected_kg', '') }}">
+        </label>
+        <label>Disposal method
+          <input type="text" name="waste_disposal_method" maxlength="120" value="{{ form_data.get('waste_disposal_method', '') }}">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Water monitoring (liters)</legend>
+      <div class="environmental-fields">
+        <label>Water consumed
+          <input type="number" name="water_consumed_liters" min="0" step="0.1" value="{{ form_data.get('water_consumed_liters', '') }}">
+        </label>
+        <label>Water available
+          <input type="number" name="water_available_liters" min="0" step="0.1" value="{{ form_data.get('water_available_liters', '') }}">
+        </label>
+        <label>Accommodation consumption
+          <input type="number" name="accommodation_water_liters" min="0" step="0.1" value="{{ form_data.get('accommodation_water_liters', '') }}">
+        </label>
+        <label>Wastewater
+          <input type="number" name="wastewater_liters" min="0" step="0.1" value="{{ form_data.get('wastewater_liters', '') }}">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Transportation</legend>
+      <div class="environmental-fields">
+        <label>Vehicle count
+          <input type="number" name="vehicle_count" min="0" value="{{ form_data.get('vehicle_count', '') }}">
+        </label>
+        <label>Vehicle type
+          <input type="text" name="vehicle_type" maxlength="120" value="{{ form_data.get('vehicle_type', '') }}" placeholder="For example, car or bus">
+        </label>
+        <label>Approximate distance (km)
+          <input type="number" name="transport_distance_km" min="0" step="0.1" value="{{ form_data.get('transport_distance_km', '') }}">
+        </label>
+        <label>Transport mode
+          <select name="transport_mode">
+            <option value="">Not recorded</option>
+            {% for value in ['shared', 'private', 'mixed'] %}
+              <option value="{{ value }}" {% if form_data.get('transport_mode') == value %}selected{% endif %}>{{ value|title }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Passenger count
+          <input type="number" name="passenger_count" min="0" value="{{ form_data.get('passenger_count', '') }}">
+        </label>
+        <label>Estimated transport emissions (kg CO₂e)
+          <input type="number" name="estimated_transport_emissions_kg" min="0" step="0.01" value="{{ form_data.get('estimated_transport_emissions_kg', '') }}">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Environmental conditions and wildlife</legend>
+      <div class="environmental-fields">
+        <label>Temperature (°C)
+          <input type="number" name="temperature_c" min="-90" max="60" step="0.1" value="{{ form_data.get('temperature_c', '') }}">
+        </label>
+        <label>Rainfall (mm)
+          <input type="number" name="rainfall_mm" min="0" step="0.1" value="{{ form_data.get('rainfall_mm', '') }}">
+        </label>
+        <label>Weather
+          <input type="text" name="weather" maxlength="120" value="{{ form_data.get('weather', '') }}">
+        </label>
+        <label>Trail condition
+          <select name="trail_condition">
+            <option value="">Not recorded</option>
+            {% for value in ['good', 'moderate', 'poor', 'closed'] %}
+              <option value="{{ value }}" {% if form_data.get('trail_condition') == value %}selected{% endif %}>{{ value|title }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Vegetation condition
+          <input type="text" name="vegetation_condition" maxlength="120" value="{{ form_data.get('vegetation_condition', '') }}">
+        </label>
+        <label>Water availability condition
+          <select name="water_availability_condition">
+            <option value="">Not recorded</option>
+            {% for value in ['adequate', 'limited', 'scarce', 'unknown'] %}
+              <option value="{{ value }}" {% if form_data.get('water_availability_condition') == value %}selected{% endif %}>{{ value|title }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Wildlife sightings
+          <input type="number" name="wildlife_sightings" min="0" value="{{ form_data.get('wildlife_sightings', '') }}">
+        </label>
+        <label>Sensitive species / area
+          <input type="text" name="sensitive_species_or_area" maxlength="240" value="{{ form_data.get('sensitive_species_or_area', '') }}">
+        </label>
+        <label>Wildlife activity
+          <input type="text" name="wildlife_activity" maxlength="240" value="{{ form_data.get('wildlife_activity', '') }}">
+        </label>
+        <label>Disturbance reports
+          <input type="number" name="disturbance_reports" min="0" value="{{ form_data.get('disturbance_reports', '') }}">
+        </label>
+        <label>Seasonal sensitivity
+          <select name="seasonal_sensitivity">
+            <option value="">Not recorded</option>
+            {% for value in ['low', 'medium', 'high', 'unknown'] %}
+              <option value="{{ value }}" {% if form_data.get('seasonal_sensitivity') == value %}selected{% endif %}>{{ value|title }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Local-community participation</legend>
+      <div class="environmental-fields">
+        <label>Local guides
+          <input type="number" name="local_guides" min="0" value="{{ form_data.get('local_guides', '') }}">
+        </label>
+        <label>Local homestays
+          <input type="number" name="local_homestays" min="0" value="{{ form_data.get('local_homestays', '') }}">
+        </label>
+        <label>Local vendors
+          <input type="number" name="local_vendors" min="0" value="{{ form_data.get('local_vendors', '') }}">
+        </label>
+        <label>Community employment
+          <input type="number" name="community_employment" min="0" value="{{ form_data.get('community_employment', '') }}">
+        </label>
+        <label>Local tourism revenue (₹)
+          <input type="number" name="local_tourism_revenue_inr" min="0" step="0.01" value="{{ form_data.get('local_tourism_revenue_inr', '') }}">
+        </label>
+      </div>
+    </fieldset>
+
+    <label>Notes and assumptions
+      <textarea name="notes" maxlength="2000" placeholder="Describe data sources, estimation assumptions, or limitations.">{{ form_data.get('notes', '') }}</textarea>
+    </label>
+    <button type="submit">Save monitoring record</button>
+  </form>
+</section>
+
+<section class="section" aria-labelledby="observation-history-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Historical records</p>
+      <h2 id="observation-history-title">Recent monitoring data</h2>
+    </div>
+    <form method="get" action="/environmental" class="filters">
+      <label for="place-filter">Destination</label>
+      <select id="place-filter" name="place_id">
+        <option value="">All destinations</option>
+        {% for place in places %}
+          <option value="{{ place.id }}" {% if selected_place == place.id %}selected{% endif %}>{{ place.place_name }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Filter</button>
+    </form>
+  </div>
+  <p class="page-intro">Showing up to 100 most recent records. Counts represent aggregated observations, not individual visitor tracking.</p>
+  {% if observations %}
+    <div class="environmental-table-wrap">
+      <table class="table-eco">
+        <thead>
+          <tr>
+            <th scope="col">Observed at</th>
+            <th scope="col">Destination / zone</th>
+            <th scope="col">Basis</th>
+            <th scope="col">Visitors</th>
+            <th scope="col">Waste (kg)</th>
+            <th scope="col">Water (L)</th>
+            <th scope="col">Trail</th>
+            <th scope="col">Wildlife sightings</th>
+            <th scope="col">Disturbance reports</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in observations %}
+            <tr>
+              <td>{{ row.record.observed_at.strftime('%Y-%m-%d %H:%M') }}</td>
+              <td>{{ row.place_name }}{% if row.record.trail_zone %}<br><small>{{ row.record.trail_zone }}</small>{% endif %}</td>
+              <td><span class="badge-eco">{{ row.record.data_basis|title }}</span></td>
+              <td>{{ row.record.visitor_count }}</td>
+              <td>{{ row.record.waste_total_kg if row.record.waste_total_kg is not none else '—' }}</td>
+              <td>{{ row.record.water_consumed_liters if row.record.water_consumed_liters is not none else '—' }}</td>
+              <td>{{ row.record.trail_condition|title if row.record.trail_condition else '—' }}</td>
+              <td>{{ row.record.wildlife_sightings if row.record.wildlife_sightings is not none else '—' }}</td>
+              <td>{{ row.record.disturbance_reports if row.record.disturbance_reports is not none else '—' }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state">No monitoring records yet. Once an authorized admin saves an observation, it will appear here.</div>
+  {% endif %}
+</section>
+{% endblock %}

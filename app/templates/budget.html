@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Budget Planner{% endblock %}
+{% block content %}
+<h1>Budget Planner</h1>
+<p class="page-intro">Estimate the main costs for your trip. Totals update as you enter amounts.</p>
+<form class="stack-form" action="/budget" method="post">
+  <div class="form-grid">
+    <label>Trip length (days)<input type="number" name="days" value="2" min="1" required></label>
+    <label>Travelers<input type="number" name="travelers" value="2" min="1" required></label>
+  </div>
+  <label>Stay<input class="budget-cost" type="number" name="stay_cost" step="0.01" min="0" value="0" placeholder="Stay cost"></label>
+  <label>Entry fees<input class="budget-cost" type="number" name="entry_cost" step="0.01" min="0" value="0" placeholder="Entry cost"></label>
+  <label>Food<input class="budget-cost" type="number" name="food_cost" step="0.01" min="0" value="0" placeholder="Food cost"></label>
+  <label>Transport<input class="budget-cost" type="number" name="transport_cost" step="0.01" min="0" value="0" placeholder="Transport cost"></label>
+  <label>Guide<input class="budget-cost" type="number" name="guide_cost" step="0.01" min="0" value="0" placeholder="Guide cost"></label>
+  <label>Activities<input class="budget-cost" type="number" name="activity_cost" step="0.01" min="0" value="0" placeholder="Activity cost"></label>
+  <label>Other expenses<input class="budget-cost" type="number" name="misc_cost" step="0.01" min="0" value="0" placeholder="Miscellaneous"></label>
+  <output class="budget-total" id="budget-total" aria-live="polite">Estimated total: ₹0</output>
+  {% if user %}
+    <button type="submit">Save plan</button>
+  {% else %}
+    <a class="button-link" href="/login">Log in to save this plan</a>
+  {% endif %}
+</form>
+
+{% if plans %}
+  <h2>Saved plans</h2>
+  {% for plan in plans %}
+    <div class="review-item">
+      <p>{{ plan.days }} day(s) · {{ plan.travelers }} traveler(s)</p>
+      <p>Total: ₹{{ plan.total_cost }}</p>
+    </div>
+  {% endfor %}
+{% endif %}
+{% endblock %}

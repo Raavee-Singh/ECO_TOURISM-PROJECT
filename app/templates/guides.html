@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Guides{% endblock %}
+{% block content %}
+<h1>Local Guides</h1>
+{% for guide in guides %}
+  <article class="review-item">
+    <h3>{{ guide.name }}</h3>
+    <p>{{ guide.specialization }} · ₹{{ guide.price_per_day }}/day</p>
+    <small>{{ guide.languages }}</small>
+  </article>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Reviews{% endblock %}
+{% block content %}
+<h1>Recent reviews</h1>
+<form method="get" action="/reviews" class="filters">
+  <label>Minimum rating</label>
+  <select name="rating">
+    <option value="0">All</option>
+    {% for item in range(5, 0, -1) %}
+      <option value="{{ item }}" {% if rating == item %}selected{% endif %}>{{ item }} ★</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Filter</button>
+</form>
+{% for review in reviews %}
+  <article class="review-item">
+    <h3>{{ review.title }}</h3>
+    <p>{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</p>
+    <p>{{ review.comment }}</p>
+    <small>{{ review.user.name if review.user else 'Visitor' }}</small>
+  </article>
+{% endfor %}
+{% endblock %}

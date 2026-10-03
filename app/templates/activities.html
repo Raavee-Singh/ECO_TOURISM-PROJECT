@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Activities{% endblock %}
+{% block content %}
+<h1>Activities</h1>
+{% for activity in activities %}
+  <article class="review-item">
+    <h3>{{ activity.name }}</h3>
+    <p>{{ activity.duration_hours }} hours · ₹{{ activity.price_per_person }}/person</p>
+    <small>{{ activity.description }}</small>
+  </article>
+{% endfor %}
+{% endblock %}
