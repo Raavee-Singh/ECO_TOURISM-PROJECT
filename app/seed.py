@@ -36,7 +36,7 @@ DESTINATIONS = [
     {
         "place_name": "Bhadra Tiger Reserve",
         "location": "Bhadra",
-        "category": "wildlife",
+        "category": "western ghats",
         "description": "A Western Ghats forest and tiger-reserve landscape around the Bhadra catchment. Confirm which visitor activities, routes and permits are currently available with the Forest Department.",
         "district": "Chikkamagaluru",
     },
@@ -64,7 +64,7 @@ DESTINATIONS = [
     {
         "place_name": "Devarayanadurga",
         "location": "Devarayanadurga Hills",
-        "category": "hill station",
+        "category": "hill",
         "description": "A hilly, forested landscape in Tumakuru district, with hill trails and viewpoints. Karnataka Eco Tourism describes the area's dense green cover and surrounding wilderness; check local access notices.",
         "district": "Tumakuru",
     },
@@ -106,14 +106,14 @@ DESTINATIONS = [
     {
         "place_name": "Kali Tiger Reserve",
         "location": "Kali (Anshi-Dandeli)",
-        "category": "wildlife",
+        "category": "western ghats",
         "description": "A protected forest and river landscape in the Western Ghats of Uttara Kannada. Wildlife viewing and outdoor activities are subject to current forest permissions and reserve rules.",
         "district": "Uttara Kannada",
     },
     {
         "place_name": "Kudremukh National Park",
         "location": "Kudremukh Range",
-        "category": "mountain",
+        "category": "western ghats",
         "description": "A Western Ghats national park known for its highland terrain, forested slopes and grassland landscapes. Trekking and visitor access require checking current Forest Department rules and permissions.",
         "district": "Chikkamagaluru",
     },

@@ -45,7 +45,7 @@ def home(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_optional(request, db)
     places = db.exec(select(Place).where(Place.status == "approved").order_by(Place.place_name).limit(6)).all()
     reviews = db.exec(select(Review).order_by(Review.created_at.desc()).limit(5)).all()
-    categories = ["wildlife", "forest", "trekking", "mountain", "waterfall", "hill station", "backwaters"]
+    categories = ["wildlife", "forest", "western ghats", "trekking", "hill", "mountain", "waterfall", "backwaters"]
     return templates.TemplateResponse(
         "index.html",
         {"request": request, "user": user, "places": places, "reviews": reviews, "categories": categories},

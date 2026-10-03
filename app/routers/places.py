@@ -34,7 +34,7 @@ def _place_query_filters(db: Session, category: str = "", district: str = "", qu
 def places_page(request: Request, db: Session = Depends(get_db), category: str = "", district: str = "", q: str = ""):
     user = get_current_user_optional(request, db)
     places = _place_query_filters(db, category=category, district=district, query=q)
-    categories = ["wildlife", "forest", "trekking", "mountain", "waterfall", "hill station", "backwaters"]
+    categories = ["wildlife", "forest", "western ghats", "trekking", "hill", "mountain", "waterfall", "backwaters"]
     districts = sorted({p.district for p in db.exec(select(Place).where(Place.status == "approved")).all() if p.district})
     return request.app.state.templates.TemplateResponse(
         "places.html",
