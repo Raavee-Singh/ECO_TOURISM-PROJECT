@@ -125,17 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let rotationIndex = 0;
   let heroIsVisible = true;
   let scenePaused = false;
-  const assetChecks = new Map();
-
-  const localAssetExists = (url) => {
-    if (!assetChecks.has(url)) {
-      const check = fetch(url, { method: 'HEAD', cache: 'no-store' })
-        .then((response) => response.ok)
-        .catch(() => false);
-      assetChecks.set(url, check);
-    }
-    return assetChecks.get(url);
-  };
 
   const updateSceneChoice = (scene) => {
     sceneChoices.forEach((button) => {
@@ -256,12 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
   startSceneRotation();
 
   const localImages = [...document.querySelectorAll('[data-local-src]')];
-  const loadLocalImage = async (image) => {
+  const loadLocalImage = (image) => {
     const url = image.dataset.localSrc;
     if (!url || image.dataset.checked) return;
     image.dataset.checked = 'true';
-    if (await localAssetExists(url)) image.src = url;
-    else image.classList.add('is-unavailable');
+    image.src = url;
   };
   if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries, observer) => {

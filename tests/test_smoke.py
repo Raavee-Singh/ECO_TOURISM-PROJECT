@@ -96,6 +96,9 @@ def test_every_seeded_destination_has_a_local_jpeg():
         response = client.get(asset_url)
         assert response.status_code == 200, filename
         assert response.headers["content-type"].startswith("image/jpeg"), filename
+        head_response = client.head(asset_url)
+        assert head_response.status_code == 200, filename
+        assert head_response.headers["content-type"].startswith("image/jpeg"), filename
 
 
 def test_booking_uses_server_price_and_unique_reference():
