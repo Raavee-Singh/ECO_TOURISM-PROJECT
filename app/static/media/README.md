@@ -1,44 +1,24 @@
-# Local media setup
+# Local media
 
-The application currently contains no downloaded stock video or photo assets.
-The CSS gradients are intentional fallbacks. Add rights-verified files to
-`app/static/media/`; the hero and interior-page scene loader will use them
-automatically. Do not hotlink remote stock assets at runtime.
+The application serves its wildlife photographs from this directory rather
+than hotlinking images from another site.
 
-## Scene assets
+## Active wildlife scenes
 
-For each scene, supply the following desktop files:
-
-| Basename | Suggested subject |
+| Filename | Subject |
 | --- | --- |
-| `hero-sunrise-mountains` | Misty forested hills at sunrise |
-| `hero-day-clouds` | Moving clouds over green mountain ridges |
-| `hero-rain-forest` | Rain over a tropical forest canopy |
-| `hero-waterfall` | Waterfall in a forested valley |
-| `hero-sunset-hills` | Sunset over layered green hills |
+| `wildlife-elephant-family.jpg` | Elephant family from the Kabini area of Karnataka |
+| `wildlife-lion-tailed-macaque.jpg` | Lion-tailed macaque at Agumbe, Karnataka |
 
-For every basename above, add:
+The homepage cross-fades between these scenes and uses a slow, subtle camera
+drift. The Wildlife picker lets visitors choose a scene or pause the movement.
+Interior pages use the same local photographs as a softened backdrop so text
+and forms remain readable. Reduced-motion settings disable the movement.
 
-- `<basename>.mp4` — H.264 video
-- `<basename>.webm` — VP9 or AV1 video
-- `<basename>.jpg` — still poster frame, under 200 KB
+The source pages and Creative Commons licences are recorded in
+[CREDITS.md](./CREDITS.md). Preserve those credits and comply with each
+attribution and share-alike licence if redistributing the images.
 
-Optional mobile encodes use the same basename with `-mobile` before the
-extension, for example `hero-day-clouds-mobile.mp4` and
-`hero-day-clouds-mobile.webm`. These should be 720p or smaller.
-
-Keep video clips 10–20 seconds, seamless, muted, 1080p maximum, and preferably
-2–5 MB. Strip audio. Add each file's creator, source URL, licence, and download
-date to `CREDITS.md`. Do not describe a clip as royalty-free until its specific
-licence has been checked.
-
-## Destination photography
-
-Place photos in `app/static/images/places/`. The rendered destination slug is
-the lowercase destination name with spaces changed to hyphens, followed by
-`.jpg` (for example `jog-falls.jpg`). Keep each file locally served, optimized
-for web, and include its creator, source URL, and licence in
-`app/static/images/places/CREDITS.md`.
-
-Until the photos are supplied, destination image areas display a designed
-gradient instead of a broken-image icon.
+Optional locally licensed video scenes can be added later. Use short, muted,
+optimized clips with still-image fallbacks, and document the exact source and
+licence before shipping them.

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Tourist Places{% endblock %}
+{% block title %}Eco Destinations{% endblock %}
 {% block content %}
-<h1>Tourist Places</h1>
+<h1>Karnataka Eco Destinations</h1>
+<p class="page-intro">Explore Karnataka’s forests, Western Ghats, hill trails and wildlife landscapes. Access, permits, operating seasons and fees can change; confirm current details with the official forest or ecotourism authorities before travelling.</p>
 <form class="filters" method="get" action="/places">
   <input type="text" name="q" value="{{ q }}" placeholder="Search by name or district">
   <select name="category">
@@ -34,7 +35,7 @@
           <h3><a href="/places/{{ place.id }}">{{ place.place_name }}</a></h3>
           <p>{{ place.description[:120] }}...</p>
           <div class="card-meta">
-            <span>Entry ₹{{ place.entry_fee }}</span>
+            <span>{% if place.entry_fee %}Entry ₹{{ place.entry_fee }}{% else %}Check current entry fees{% endif %}</span>
             <span class="eco-rating"><span aria-hidden="true">✦</span> {{ place.eco_rating or 'N/A' }}<small>/5</small></span>
           </div>
           {% if user %}

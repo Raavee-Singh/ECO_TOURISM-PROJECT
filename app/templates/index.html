@@ -45,12 +45,14 @@
           <svg viewBox="0 0 32 32"><path d="M5 7h22M9 7v8m7-8v13m7-13v8M9 20v5m7-2v4m7-7v5M5 27h22"/></svg>
           {% elif category == 'hill station' %}
           <svg viewBox="0 0 32 32"><path d="m3 26 10-17 5 8 3-5 8 14H3Z"/></svg>
-          {% elif category == 'beach' %}
-          <svg viewBox="0 0 32 32"><path d="M5 14c4-4 8-4 12 0s8 4 10 0M4 21c4-4 8-4 12 0s8 4 12 0M16 5v3M7 8l2 2m16-2-2 2"/></svg>
           {% elif category == 'trekking' %}
           <svg viewBox="0 0 32 32"><path d="m4 25 8-13 4 6 4-9 8 16H4Zm8-13 2 3m6-6 2 4"/></svg>
           {% elif category == 'backwaters' %}
           <svg viewBox="0 0 32 32"><path d="M4 11c4-4 8-4 12 0s8 4 12 0M4 18c4-4 8-4 12 0s8 4 12 0M4 25c4-4 8-4 12 0s8 4 12 0"/></svg>
+          {% elif category == 'mountain' %}
+          <svg viewBox="0 0 32 32"><path d="m3 26 9-15 4 6 4-9 9 18H3Zm6-4h14"/></svg>
+          {% elif category == 'forest' %}
+          <svg viewBox="0 0 32 32"><path d="m16 4 7 10h-4l6 8h-7v6h-4v-6H7l6-8H9l7-10Z"/></svg>
           {% else %}
           <svg viewBox="0 0 32 32"><path d="M5 26h22M8 26V13l8-7 8 7v13M13 26v-7h6v7"/></svg>
           {% endif %}
@@ -87,7 +89,7 @@
           <p class="card-location">{{ place.location }} · {{ place.district or 'Karnataka' }}</p>
           <h3><a href="/places/{{ place.id }}">{{ place.place_name }}</a></h3>
           <div class="card-meta">
-            <span>Entry ₹{{ place.entry_fee }}</span>
+            <span>{% if place.entry_fee %}Entry ₹{{ place.entry_fee }}{% else %}Check current entry fees{% endif %}</span>
             <span class="eco-rating"><span aria-hidden="true">✦</span> {{ place.eco_rating or 'N/A' }}<small>/5</small></span>
           </div>
           <a class="card-link" href="/places/{{ place.id }}">Discover this place <span aria-hidden="true">→</span></a>

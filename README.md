@@ -80,19 +80,54 @@ responsive, nature-inspired CSS design.
 - Responsive pages for the home page, destinations, destination details,
   registration and login, profile, dashboard, reviews, bookings, stays, guides,
   activities, complaints, budget planning, and environmental monitoring.
-- A responsive, editorial visual design with a local-media-ready landscape
-  hero, category navigation, destination cards, and consistent forms and
-  tables.
+- A responsive, editorial visual design with local wildlife photography in the
+  hero, page backdrops, and the journey section, alongside category navigation,
+  destination cards, forms, and tables.
 - A sticky translucent header that becomes a light frosted bar while scrolling,
   plus an accessible small-screen navigation menu.
-- A Scene picker for Auto, Sunrise, Day, Rain, Waterfall, and Sunset. A manual
-  choice is stored in browser local storage; Auto follows the visitor's local
-  time. A pause/play control is available on immersive pages.
+- A Wildlife picker for Auto, Elephants, and Lion-tailed macaque scenes. Manual
+  choices are stored in browser local storage; Auto cross-fades between the
+  local photographs, with a pause/play control on immersive pages.
+- Slow camera-drift motion and image cross-fades add depth without requiring
+  video downloads; reduced-motion preferences disable these effects.
 - Respect for reduced-motion preferences, visible keyboard focus, a
   skip-to-content link, descriptive image alternatives, and lazy loading for
   destination images.
-- Remote Google Fonts are optional enhancements; system font fallbacks are
-  defined. Background photos and videos are not hotlinked.
+- Manrope body text and DM Serif Display headings use system font fallbacks.
+  Wildlife photos are served locally, not hotlinked.
+
+### Seeded Karnataka nature destinations
+
+The seed catalogue now contains 22 nature-focused entries: the named trails
+published by [Karnataka Eco Tourism](https://karnatakaecotourism.com/treks)
+(Anthargange, Bidarakatte, Chinaga Betta, Devarayanadurga, Dhamane-Tilari,
+Halasagara, Kada View Point, Kaiwara Betta, Makalidurga, Ramadevara Betta,
+Sarvodaya, Savandurga, Siddara Betta, Skandagiri, and Tilari Backwater), plus
+Bandipur, Bhadra, Biligiri Rangaswamy, Kali, Nagarahole, and Kudremukh forest
+destinations and Jog Falls. The official trail details include descriptions for
+individual routes; access may change, and Halasagara's page has said "Coming
+Soon." This is a researched selection, not a claim to list every forest,
+sanctuary, or place open for tourism in Karnataka.
+
+The former Mysore Palace sample record is archived rather than repurposed as a
+different place, preserving any historical references while removing it from
+the public catalogue. Nagarahole is seeded as its own destination. The catalog
+does not invent current prices, opening hours, map coordinates, or
+eco-certification: where these are unverified, visitors are directed to check
+current official notices. The project seed is upserted on startup, so existing
+local databases receive the new destination names without resetting user
+accounts.
+
+Research sources:
+
+- [Karnataka Eco Tourism trail catalogue](https://karnatakaecotourism.com/treks)
+- [Karnataka Eco Tourism trail listing: Anthargange](https://karnatakaecotourism.com/treks/anthargange)
+- [Karnataka Eco Tourism trail listing: Bidarakatte](https://karnatakaecotourism.com/treks/bidarakatte)
+- [Karnataka Eco Tourism trail listing: Devarayanadurga](https://karnatakaecotourism.com/treks/devarayanadurga)
+- [Karnataka Eco Tourism trail listing: Savandurga](https://karnatakaecotourism.com/treks/savanadurga)
+- [Karnataka Eco Tourism trail listing: Siddara Betta](https://karnatakaecotourism.com/treks/siddarabetta)
+- [Karnataka Eco Tourism trail listing: Skandagiri](https://karnatakaecotourism.com/treks/skandagiri)
+- [National Tiger Conservation Authority](https://ntca.gov.in/tiger-reserves/)
 
 ## Roles
 
@@ -225,26 +260,16 @@ asset delivery.
 
 ## Frontend media and credits
 
-The interface references local files under `app/static/media/` and
-`app/static/images/places/`. **No stock video or photograph files are currently
-bundled.** The design therefore uses its CSS landscape gradients until you add
-rights-verified local images and videos. This avoids fake credits, broken
-hotlinks, and unverified image licensing.
+The interface uses two locally served wildlife images under
+`app/static/media/`: an elephant family near Kabini and a lion-tailed macaque
+at Agumbe. They cross-fade in the homepage hero and journey section and appear
+as a softened backdrop on interior pages. A slow camera drift and the
+pauseable Auto scene rotation add movement; reduced-motion preferences disable
+the effects. No background video is bundled.
 
-The Scene picker supports these local video basenames:
-
-- `hero-sunrise-mountains`
-- `hero-day-clouds`
-- `hero-rain-forest`
-- `hero-waterfall`
-- `hero-sunset-hills`
-
-For each basename, add `.mp4` (H.264), `.webm` (VP9/AV1), and a matching `.jpg`
-poster to `app/static/media/`. Optional mobile encodes use `-mobile.mp4` and
-`-mobile.webm`. The app selects smaller mobile files when available and uses
-the local poster/gradient when videos cannot be played. See
-[app/static/media/README.md](./app/static/media/README.md) for the subjects,
-format and optimization requirements.
+See [app/static/media/README.md](./app/static/media/README.md) for usage and
+[app/static/media/CREDITS.md](./app/static/media/CREDITS.md) for creators,
+source pages, download date, and licences.
 
 Add destination files as
 `app/static/images/places/<lowercase-name-with-hyphens>.jpg`. Missing photos
@@ -256,21 +281,18 @@ licence/terms, and download date for every installed stock asset in
 The public credits document is available at
 [/static/media/credits.html](http://127.0.0.1:8000/static/media/credits.html).
 It is served as a static asset so the backend route table remains unchanged.
-The stock-media source pages must be checked for the specific asset and current
-licence before download; see the credit instructions for the Pexels licence
-overview. Video autoplay is skipped for reduced-motion preferences, data
-saver, and slow connections. Background clips pause when hidden or when the
-home hero scrolls out of view.
 
 ## Current scope and limitations
 
-- The seeded catalogue currently contains three example destinations; the
-  broader 16-destination catalogue and destination-specific locally licensed
-  photography described in the design brief have not been added yet. Existing
-  sample entry fees and eco ratings are demo data, not official current tariffs
-  or government certifications.
-- The Scene picker and media-loading behavior are implemented, but the visual
-  loop/cross-fade can only be verified once local video encodes are supplied.
+- The 22 seeded destinations are a researched selection, not an exhaustive
+  government directory or an assurance that every listed trail is currently
+  open. Check Forest Department / Karnataka Eco Tourism notices for access,
+  permits, fees and operating conditions.
+- Destination-specific locally licensed photographs have not yet been added;
+  cards use their designed fallback treatment until credited local images are
+  supplied.
+- The wildlife experience uses local still photographs with cross-fades and a
+  subtle camera drift; moving video scenes are not included.
 - The `/credits` application route is not added because this frontend/media
   task keeps the FastAPI route table unchanged. Use the static credits page
   linked in the footer for now.

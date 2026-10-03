@@ -1,17 +1,15 @@
 # Local media credits
 
-No third-party media has been installed in this folder yet. The design uses
-locally served paths and gradient fallbacks; it does not hotlink stock media at
-runtime.
+These locally served wildlife photographs power the background scene picker.
+Images were downloaded from Wikimedia Commons on 2026-10-03. The local files
+are Wikimedia-generated thumbnails; the originals and full terms are linked
+below. The photography is not altered in this project.
 
-Before adding an asset, verify its current licence and retain the original
-download/source page. Free access does not by itself prove that a specific
-asset is cleared for every commercial use.
+| Local filename | Depiction | Creator | Source page | Licence |
+| --- | --- | --- | --- | --- |
+| `wildlife-elephant-family.jpg` | Elephant family; Kabini / Karnataka | Rohit Varma | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Elephant_Family_(109833051).jpeg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `wildlife-lion-tailed-macaque.jpg` | Lion-tailed macaque at Agumbe, Karnataka | Subramanya C K | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lion_Tailed_(Macaque).jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 
-| Local filename | Creator | Source page | Licence / use terms |
-| --- | --- | --- | --- |
-| _No media selected yet._ | — | — | — |
-
-The Pexels licence overview is at <https://www.pexels.com/license/>. Record the
-specific creator, source URL, download date, and applicable terms for each
-selected file in this table before shipping it.
+Use of these files must follow the linked attribution and share-alike terms.
+Before adding more media, verify the individual asset's licence and record its
+creator, exact source page, licence, and download date here.

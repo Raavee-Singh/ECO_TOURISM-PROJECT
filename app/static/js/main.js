@@ -119,13 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const sceneNames = ['elephants', 'macaque'];
   const hero = document.querySelector('.hero-banner');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const saveData = navigator.connection?.saveData
-    || ['slow-2g', '2g', '3g'].includes(navigator.connection?.effectiveType);
+  const saveData = navigator.connection?.saveData === true;
   let currentScene = 'auto';
   let rotationTimer = 0;
   let rotationIndex = 0;
   let heroIsVisible = true;
   let scenePaused = false;
+  const assetChecks = new Map();
 
   const localAssetExists = (url) => {
     if (!assetChecks.has(url)) {
@@ -135,14 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
       assetChecks.set(url, check);
     }
     return assetChecks.get(url);
-  };
-
-  const sceneForLocalTime = () => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 9) return 'sunrise';
-    if (hour >= 9 && hour < 17) return 'day';
-    if (hour >= 17 && hour < 20) return 'sunset';
-    return 'sunrise';
   };
 
   const updateSceneChoice = (scene) => {

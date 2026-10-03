@@ -5,6 +5,7 @@ from uuid import uuid4
 from app.database import engine, init_db
 from app.models import Booking, Complaint, EnvironmentalObservation, Place, Stay, User
 from app.main import app
+from app.seed import DESTINATIONS, seed_data
 
 client = TestClient(app)
 
@@ -63,6 +64,20 @@ def test_routes_render_and_unknown_path_is_404():
         response = client.get(path)
         assert response.status_code == 200, path
     assert client.get("/not-a-real-page").status_code == 404
+
+
+def test_seed_catalog_uses_karnataka_nature_destinations():
+    with Session(engine) as db:
+        seed_data(db)
+        places = db.exec(select(Place).where(Place.status == "approved")).all()
+        names = {place.place_name for place in places}
+
+    assert len(DESTINATIONS) == 22
+    assert {destination["place_name"] for destination in DESTINATIONS} <= names
+    assert "Mysore Palace" not in names
+    assert "Bandipur National Park" in names
+    assert "Kudremukh National Park" in names
+    assert "Savandurga" in names
 
 
 def test_booking_uses_server_price_and_unique_reference():

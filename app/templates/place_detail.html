@@ -12,9 +12,9 @@
     <p>{{ place.location }}, {{ place.district or 'Karnataka' }}</p>
     <div class="meta-row">
       <span class="badge">{{ place.status|title }}</span>
-      <span>Entry fee: ₹{{ place.entry_fee }}</span>
-      <span>Hours: {{ place.visiting_hours }}</span>
-      <span>Eco rating: {{ average_rating }}/5</span>
+      <span>{% if place.entry_fee %}Entry fee: ₹{{ place.entry_fee }}{% else %}Entry fees: check current official notices{% endif %}</span>
+      <span>Access: {{ place.visiting_hours }}</span>
+      <span>Visitor rating: {% if reviews %}{{ average_rating }}/5{% else %}Not rated{% endif %}</span>
     </div>
     {% if user %}
       <div class="action-row">
@@ -113,7 +113,7 @@
 <section class="section reviews-panel">
   <h2>Reviews</h2>
   {% if reviews %}
-    <p>Average rating: {{ average_rating }}/5</p>
+    <p>Average visitor rating: {{ average_rating }}/5 (based on {{ reviews|length }} review{{ '' if reviews|length == 1 else 's' }}).</p>
     <div class="rating-bars">
       {% for star in range(5, 0, -1) %}
         <div class="rating-row">

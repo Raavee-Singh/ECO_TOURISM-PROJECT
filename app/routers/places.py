@@ -27,14 +27,14 @@ def _place_query_filters(db: Session, category: str = "", district: str = "", qu
             | (Place.district.ilike(keyword))
             | (Place.description.ilike(keyword))
         )
-    return db.exec(statement).all()
+    return db.exec(statement.order_by(Place.place_name)).all()
 
 
 @router.get("/places")
 def places_page(request: Request, db: Session = Depends(get_db), category: str = "", district: str = "", q: str = ""):
     user = get_current_user_optional(request, db)
     places = _place_query_filters(db, category=category, district=district, query=q)
-    categories = ["wildlife", "waterfall", "hill station", "beach", "heritage", "trekking", "backwaters"]
+    categories = ["wildlife", "forest", "trekking", "mountain", "waterfall", "hill station", "backwaters"]
     districts = sorted({p.district for p in db.exec(select(Place).where(Place.status == "approved")).all() if p.district})
     return request.app.state.templates.TemplateResponse(
         "places.html",

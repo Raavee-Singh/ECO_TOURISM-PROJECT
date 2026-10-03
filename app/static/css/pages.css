@@ -28,6 +28,7 @@
   font-weight: 500;
   letter-spacing: -0.045em;
   line-height: 0.99;
+  text-shadow: 0 3px 30px rgba(0, 0, 0, 0.22);
 }
 
 .eyebrow {
@@ -48,6 +49,7 @@
   margin-bottom: 1.65rem;
   color: rgba(255, 254, 250, 0.9);
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
 }
 
 .hero-actions {
@@ -256,7 +258,8 @@
 
 .journey-section {
   background:
-    linear-gradient(120deg, rgba(16, 37, 27, 0.94), rgba(24, 58, 43, 0.89)),
+    linear-gradient(110deg, rgba(9, 24, 17, 0.9), rgba(9, 24, 17, 0.64)),
+    url("/static/media/wildlife-lion-tailed-macaque.jpg") center 42% / cover no-repeat,
     var(--eco-forest-900);
 }
 
