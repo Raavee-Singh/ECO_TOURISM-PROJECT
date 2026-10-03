@@ -83,7 +83,7 @@
     {% for place in places %}
       <article class="card place-card">
         <a class="card-media" href="/places/{{ place.id }}" aria-label="Explore {{ place.place_name }}">
-          <img data-local-src="/static/images/places/{{ place.place_name|lower|replace(' ', '-') }}.jpg" alt="{{ place.place_name }}" width="720" height="450" loading="lazy" decoding="async">
+          <img data-local-src="/static/images/places/{{ place.place_name|lower|replace(' ', '-') }}.jpg" alt="" width="720" height="450" loading="lazy" decoding="async">
           <span class="card-media__fallback" aria-hidden="true"></span>
           <span class="card-media__label">{{ place.category|title }}</span>
         </a>

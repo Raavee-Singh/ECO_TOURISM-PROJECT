@@ -1,3 +1,4 @@
+from pathlib import Path
 from fastapi.testclient import TestClient
 from sqlmodel import Session, select
 from uuid import uuid4
@@ -78,6 +79,23 @@ def test_seed_catalog_uses_karnataka_nature_destinations():
     assert "Bandipur National Park" in names
     assert "Kudremukh National Park" in names
     assert "Savandurga" in names
+
+
+def test_every_seeded_destination_has_a_local_jpeg():
+    image_dir = Path(__file__).resolve().parents[1] / "app" / "static" / "images" / "places"
+    places_page = client.get("/places")
+    assert places_page.status_code == 200
+
+    for destination in DESTINATIONS:
+        filename = destination["place_name"].lower().replace(" ", "-") + ".jpg"
+        image = image_dir / filename
+        assert image.is_file(), filename
+        assert image.read_bytes().startswith(b"\xff\xd8"), filename
+        asset_url = f"/static/images/places/{filename}"
+        assert f'data-local-src="{asset_url}"' in places_page.text
+        response = client.get(asset_url)
+        assert response.status_code == 200, filename
+        assert response.headers["content-type"].startswith("image/jpeg"), filename
 
 
 def test_booking_uses_server_price_and_unique_reference():

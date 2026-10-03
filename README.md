@@ -129,6 +129,17 @@ Research sources:
 - [Karnataka Eco Tourism trail listing: Skandagiri](https://karnatakaecotourism.com/treks/skandagiri)
 - [National Tiger Conservation Authority](https://ntca.gov.in/tiger-reserves/)
 
+### Destination photography
+
+All 22 destination cards and detail pages use optimized local Pexels JPEGs in
+`app/static/images/places/`; the templates keep their designed fallback for
+missing images. The Pexels creator, source page, licence, and whether the photo
+is site-specific or representative are recorded in
+[`app/static/images/places/CREDITS.md`](app/static/images/places/CREDITS.md).
+Several trails do not have a verifiable trail-specific photo, so their images
+are representative Karnataka or Indian landscapes, not evidence of the exact
+trail location or current access.
+
 ## Roles
 
 | Role | Capabilities |
@@ -271,10 +282,10 @@ See [app/static/media/README.md](./app/static/media/README.md) for usage and
 [app/static/media/CREDITS.md](./app/static/media/CREDITS.md) for creators,
 source pages, download date, and licences.
 
-Add destination files as
-`app/static/images/places/<lowercase-name-with-hyphens>.jpg`. Missing photos
-fall back to a designed landscape treatment. Keep a creator, source URL,
-licence/terms, and download date for every installed stock asset in
+Destination images are stored as
+`app/static/images/places/<lowercase-name-with-hyphens>.jpg`; missing photos
+fall back to a designed landscape treatment. Wildlife and destination photo
+credits, source URLs, licences, and download dates are maintained in
 [app/static/media/CREDITS.md](./app/static/media/CREDITS.md) and
 `app/static/images/places/CREDITS.md`.
 
@@ -288,9 +299,9 @@ It is served as a static asset so the backend route table remains unchanged.
   government directory or an assurance that every listed trail is currently
   open. Check Forest Department / Karnataka Eco Tourism notices for access,
   permits, fees and operating conditions.
-- Destination-specific locally licensed photographs have not yet been added;
-  cards use their designed fallback treatment until credited local images are
-  supplied.
+- All 22 destinations have locally served photos. Some are representative
+  regional landscapes rather than verified views of the named trail; see the
+  destination image credits for those limitations.
 - The wildlife experience uses local still photographs with cross-fades and a
   subtle camera drift; moving video scenes are not included.
 - The `/credits` application route is not added because this frontend/media
